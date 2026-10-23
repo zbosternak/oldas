@@ -59,7 +59,7 @@ jo:{s:3,t:'Visszatekerés',i:[{k:'jo',l:'Hol volt még jó neked?',h:'Tekerd vis
 rossz:{s:4,t:'Az első rossz érzés',i:[{k:'rossz',l:'Hol jött az első rossz érzés, és mi volt az?'},{k:'vart',l:'Váratlan volt?',c:['Igen','Nem'],one:1},{k:'zavar',l:'Mi zavar benne?'},{k:'reak',l:'Hogyan reagáltál?',c:REA}]},
 csere:{s:5,t:'Csere',i:[{k:'mit',l:'Mit tett volna valaki más a helyedben, hogy jól érezze magát?',h:'Valaki, aki nem te. Lehet valós személy, mesehős, bárki.'}]},
 vissza:{s:6,t:'Visszacserélés',i:[{k:'gatlo',l:'Cseréld vissza magad. Melyik rossz érzés gátol most?'}]},
-wand:{s:7,t:'Varázspálca',w:1,i:[{k:'j',l:'Mit javítasz ki? Csak EGY dolgot.',h:'Pl. az anyukád nem kiabál rád.'}]},
+wand:{s:7,t:'Varázspálca',w:1,i:[{k:'j',l:'Mit javítasz ki?',h:'Azt javítsd ki, ami zavar. Egy dolgot lehet.'}]},
 after:{s:7,t:'A javítás után',w:1,i:[{k:'st',l:'Hogy érzed magad a javítás után?',c:['Jó lett','Jobb lett','Semleges','Még rossz'],one:1},{k:'nt',l:'Milyen érzés ez most?',h:'Ha rossz maradt, ezzel megyünk tovább.'}]},
 check:{s:7,t:'Ellenőrzés visszafelé',w:1,i:[{k:'st',l:'Hogy érzed most ezt a képet?',c:['Megváltozott','Jobb lett','Semleges','Még rossz'],one:1},{k:'nt',l:'Megjegyzés'}]}
 };
@@ -97,13 +97,13 @@ function draw(){
  if(p!='topic'&&p!='wand'&&S.topic)h+='<p class="sub">Téma: '+esc(S.topic)+'</p>';
  if(p=='check'){var c=S.imgs[S.ck];h+='<div class="recap"><b>'+(S.ck+1)+'. kép:</b> '+esc(c.kep||'(nincs leírás)')+(c.rossz?'<br>Első rossz érzés: '+esc(c.rossz):'')+'</div>'+(S.wand.j?'<div class="seed">Varázspálca: '+esc(S.wand.j)+'</div>':'')}
  if(p=='after')h+='<div class="seed">Varázspálca: '+esc(S.wand.j||'')+'</div>';
- if(p=='wand')h+='<div class="note">Menj a legmélyebb, váratlan helyzethez. Egy javítás megváltoztatja a többi képet is.</div>';
+ 
  d.i.forEach(function(it){if(it.n&&S.ci==0)return;h+=field(it)});
- if(p=='rossz'&&(g.vart||'')=='Igen')h+='<div class="note">Váratlan élmény. Ha ez a mélypont, jöhet a varázspálca.<button class="btn g" style="margin-top:8px;width:100%" onclick="toWand()">Varázspálca ezen a képen</button></div>';
+ if(p=='rossz'&&(g.vart||'')=='Igen')h+='<div class="note"><button class="btn g" style="margin-top:8px;width:100%" onclick="toWand()">Varázspálca ezen a képen</button></div>';
  if(p=='vissza'){
   h+='<button class="btn" style="width:100%" onclick="same()">Nincs más gátló – az első rossz érzéssel megyek tovább</button>';
   var u=S.imgs.some(function(x){return x.vart=='Igen'});
-  h+='<p class="sub" style="margin-top:12px">'+(S.ci+1)+'. kép kész. A folyamat általában 3–8 kép.'+(u?' Váratlan élmény már volt, ha ez az alap, jöhet a pálca.':'')+'</p>'}
+  h+='<p class="sub" style="margin-top:12px">'+(S.ci+1)+'. kép kész. A folyamat általában 3–8 kép.'+'</p>'}
  m.innerHTML=h;
  if(p=='vissza')n.innerHTML='<div class="col" style="display:flex;gap:8px;flex:1"><button class="btn p" onclick="nextImg()">Következő kép ebből az érzésből</button><div style="display:flex;gap:8px"><button class="btn s" onclick="back()">Vissza</button><button class="btn g" style="flex:1" onclick="toWand()">Mélypont: varázspálca</button></div></div>';
  else if(p=='wand')n.innerHTML='<button class="btn s" onclick="back()">Vissza</button><button class="btn g" onclick="next()">Tovább</button>';
