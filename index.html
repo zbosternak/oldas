@@ -61,7 +61,7 @@ csere:{s:5,t:'Csere',i:[{k:'mit',l:'Mit tett volna valaki más a helyedben, hogy
 vissza:{s:6,t:'Visszacserélés',i:[{k:'gatlo',l:'Cseréld vissza magad. Melyik rossz érzés gátol most?'}]},
 wand:{s:7,t:'Varázspálca',w:1,i:[{k:'j',l:'Mit javítasz ki?',h:'Azt javítsd ki, ami zavar. Egy dolgot lehet.'}]},
 after:{s:7,t:'A javítás után',w:1,i:[{k:'st',l:'Hogy érzed magad a javítás után?',c:['Jó lett','Jobb lett','Semleges','Még rossz'],one:1},{k:'nt',l:'Milyen érzés ez most?',h:'Ha rossz maradt, ezzel megyünk tovább.'}]},
-check:{s:7,t:'Ellenőrzés visszafelé',w:1,i:[{k:'st',l:'Hogy érzed most ezt a képet?',c:['Megváltozott','Jobb lett','Semleges','Még rossz'],one:1},{k:'nt',l:'Megjegyzés'}]}
+check:{s:7,t:'Ellenőrzés visszafelé',w:1,i:[{k:'st',l:'Hogy érzed most ezt az érzést?',c:['Megváltozott','Jobb lett','Semleges','Még rossz'],one:1},{k:'nt',l:'Megjegyzés'}]}
 };
 var ORD=['topic','kep','jo','rossz','csere','vissza'];
 function tg(){var p=S.ph;if(p=='topic')return S;if(p=='wand')return S.wand;if(p=='after')return S.after=S.after||{};if(p=='check'){return S.chk[S.ck]=S.chk[S.ck]||{}}return S.imgs[S.ci]}
@@ -95,7 +95,7 @@ function draw(){
  h+='<span class="badge">'+d.s+'. lépés'+(img?' · '+(S.ci+1)+'. kép':'')+'</span><h1>'+d.t+'</h1>';
  if(p=='kep'&&S.ci>0){var pg=S.imgs[S.ci-1];h+='<div class="seed">Ebből az érzésből indulsz: <b>'+esc(pg.gatlo||pg.rossz||'')+'</b></div>'}
  if(p!='topic'&&p!='wand'&&S.topic)h+='<p class="sub">Téma: '+esc(S.topic)+'</p>';
- if(p=='check'){var c=S.imgs[S.ck];h+='<div class="recap"><b>'+(S.ck+1)+'. kép:</b> '+esc(c.kep||'(nincs leírás)')+(c.rossz?'<br>Első rossz érzés: '+esc(c.rossz):'')+'</div>'+(S.wand.j?'<div class="seed">Varázspálca: '+esc(S.wand.j)+'</div>':'')}
+ if(p=='check'){var c=S.imgs[S.ck];h+='<div class="recap"><b>'+(S.ck+1)+'. kép – érzés, amivel továbbléptél:</b><br>'+esc(c.gatlo||c.rossz||'(nincs megadva)')+'</div>'+(S.wand.j?'<div class="seed">Varázspálca: '+esc(S.wand.j)+'</div>':'')}
  if(p=='after')h+='<div class="seed">Varázspálca: '+esc(S.wand.j||'')+'</div>';
  
  d.i.forEach(function(it){if(it.n&&S.ci==0)return;h+=field(it)});
