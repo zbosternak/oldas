@@ -101,13 +101,13 @@ function sum(){
  if(ck.length){o.push('\nEllenőrzés');ck.forEach(function(z){o.push(z)})}
  return o.join('\n')}
 function logH(){
- if(S.ci<1||!{kep:1,jo:1,rossz:1,csere:1,vissza:1,wand:1}[S.ph])return '';
+ var ck=S.ph=='check'||S.ph=='after';if(!ck&&(S.ci<1||!{kep:1,jo:1,rossz:1,csere:1,vissza:1,wand:1}[S.ph]))return '';
  var L=[['Analógiás pont','anal'],['Vissza / ahol még jó','jo'],['Első rossz','rossz'],['Ami zavar','zavar'],['Reakciód','reak'],['Csere','mit'],['Vcsere / gátlás','gatlo']],h='';
- S.imgs.slice(0,S.ci).forEach(function(g,i){var v=g.vart=='Igen'?'I':g.vart=='Nem'?'N':'';
+ S.imgs.slice(0,ck?S.imgs.length:S.ci).forEach(function(g,i){var v=g.vart=='Igen'?'I':g.vart=='Nem'?'N':'';
   h+='<div class="lg"><b>'+(i+1)+'.kép / történet:</b> '+esc((g.kep||'')+(g.tort?' '+g.tort:''));
   L.forEach(function(z){if(z[1]=='anal'&&i==0)return;h+='<br><b>'+z[0]+':</b> '+esc(g[z[1]])});
   h+='<br><b>Váratlan (I/N):</b> '+v+'</div>'});
- return '<details class="log"'+(S.lo===false?'':' open')+' ontoggle="S.lo=this.open;save()"><summary>Napló – előző képek</summary>'+h+'</details>'}
+ var kk=ck?'lc':'lo',op=ck?S.lc===true:S.lo!==false;return '<details class="log"'+(op?' open':'')+' ontoggle="S.'+kk+'=this.open;save()"><summary>Napló'+(ck?'':' – előző képek')+'</summary>'+h+'</details>'}
 function draw(){
  var p=S.ph,m=document.getElementById('m'),n=document.getElementById('n'),g=S.imgs[S.ci],h='';
  if(p=='sum'){
