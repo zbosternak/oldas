@@ -39,9 +39,21 @@ textarea:focus{outline:2px solid var(--ac);border-color:transparent}
 .btn.s{flex:0 0 auto;padding:13px 18px}
 .col{flex-direction:column}
 pre{white-space:pre-wrap;word-break:break-word;font:14px/1.55 inherit;background:var(--card);border:1px solid var(--line);border-radius:14px;padding:14px;margin:12px 0}
+.top{max-width:560px;margin:0 auto;padding:10px 16px 0;display:flex;justify-content:flex-end}
+.lnk{background:none;border:0;color:var(--mute);font:inherit;font-size:13px;text-decoration:underline;cursor:pointer;padding:4px}
+.ov{position:fixed;inset:0;background:rgba(0,0,0,.5);display:flex;align-items:center;justify-content:center;padding:16px;z-index:9}
+.ov[hidden]{display:none}
+.dlg{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:18px;max-width:420px;width:100%}
+.dlg p{margin:8px 0}
+.ck{display:flex;gap:10px;align-items:flex-start;margin:14px 0;cursor:pointer;font-size:15px}
+.ck input{width:20px;height:20px;margin-top:2px;flex:0 0 auto}
+.row{display:flex;gap:10px}
+.btn:disabled{opacity:.4;cursor:not-allowed}
 </style>
 </head>
 <body>
+<div class="top"><button class="lnk" onclick="ask()">Újrakezdés</button></div>
+<div class="ov" id="ov" hidden><div class="dlg"><b>Újrakezdés</b><p>Az eddigi munka törlődik, ez nem vonható vissza. Ha kell, előbb mentsd el PDF-ben.</p><label class="ck"><input type="checkbox" id="ckb" onchange="document.getElementById('go').disabled=!this.checked"><span>Valóban újra akarom kezdeni, és tudomásul veszem, hogy az eddigi munka törlődik.</span></label><div class="row"><button class="btn" onclick="cancel()">Mégse</button><button class="btn p" id="go" onclick="cfm()" disabled>Újrakezdés</button></div></div></div>
 <main id="m"></main>
 <div class="nav"><div id="n"></div></div>
 <script>
@@ -169,7 +181,10 @@ async function pdf(){
 function goOn(){var a=S.ph=='after'?S.after:S.chk[S.ck],t=(a&&a.nt)||'megmaradt rossz érzés',g=S.imgs[S.wi];
  S.log=S.log||[];S.log.push({j:S.wand.j||'',st:(S.after||{}).st||'',nt:(S.after||{}).nt||''});
  g.gatlo=t;S.imgs.splice(S.wi+1,0,{});S.ci=S.wi+1;S.ph='kep';S.wand={};S.after={};S.chk={};S.ck=0;save();draw()}
-function rst(){if(confirm('Törlöd az eddigi munkát, és újat kezdesz?')){S=fresh();save();draw()}}
+function ask(){document.getElementById('ckb').checked=false;document.getElementById('go').disabled=true;document.getElementById('ov').hidden=false}
+function cancel(){document.getElementById('ov').hidden=true}
+function cfm(){if(!document.getElementById('ckb').checked)return;S=fresh();save();document.getElementById('ov').hidden=true;draw()}
+function rst(){ask()}
 function cpy(){var t=sum(),b=document.getElementById('cp');
  function ok(){b.textContent='Másolva'}
  if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(t).then(ok,fb)}else fb();
