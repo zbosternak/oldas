@@ -103,7 +103,8 @@ function sum(){
 function logH(){
  var ck=S.ph=='check'||S.ph=='after';if(!ck&&(S.ci<1||!{kep:1,jo:1,rossz:1,csere:1,vissza:1,wand:1}[S.ph]))return '';
  var L=[['Analógiás pont','anal'],['Vissza / ahol még jó','jo'],['Első rossz','rossz'],['Ami zavar','zavar'],['Reakciód','reak'],['Csere','mit'],['Vcsere / gátlás','gatlo']],h='';
- S.imgs.slice(0,ck?S.imgs.length:S.ci).forEach(function(g,i){var v=g.vart=='Igen'?'I':g.vart=='Nem'?'N':'';
+ var ix=[];for(var j=(ck?S.imgs.length:S.ci)-1;j>=0;j--)ix.push(j);
+ ix.forEach(function(i){var g=S.imgs[i],v=g.vart=='Igen'?'I':g.vart=='Nem'?'N':'';
   h+='<div class="lg"><b>'+(i+1)+'.kép / történet:</b> '+esc((g.kep||'')+(g.tort?' '+g.tort:''));
   L.forEach(function(z){if(z[1]=='anal'&&i==0)return;h+='<br><b>'+z[0]+':</b> '+esc(g[z[1]])});
   h+='<br><b>Váratlan (I/N):</b> '+v+'</div>'});
