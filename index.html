@@ -49,6 +49,10 @@ pre{white-space:pre-wrap;word-break:break-word;font:14px/1.55 inherit;background
 .ck input{width:20px;height:20px;margin-top:2px;flex:0 0 auto}
 .row{display:flex;gap:10px}
 .btn:disabled{opacity:.4;cursor:not-allowed}
+.log{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:12px 14px;margin:18px 0;font-size:14px;color:var(--mute)}
+.log summary{font-weight:600;cursor:pointer;color:var(--ink)}
+.lg{margin-top:12px;padding-top:12px;border-top:1px solid var(--line);line-height:1.6}
+.lg b{color:var(--ink)}
 </style>
 </head>
 <body>
@@ -96,6 +100,14 @@ function sum(){
  var ck=[];Object.keys(S.chk).sort(function(a,b){return b-a}).forEach(function(i){var c=S.chk[i];if(c.st||c.nt)ck.push((+i+1)+'.kép: '+q(c.st)+(c.nt?' – '+q(c.nt):''))});
  if(ck.length){o.push('\nEllenőrzés');ck.forEach(function(z){o.push(z)})}
  return o.join('\n')}
+function logH(){
+ if(S.ci<1||!{kep:1,jo:1,rossz:1,csere:1,vissza:1,wand:1}[S.ph])return '';
+ var L=[['Analógiás pont','anal'],['Vissza / ahol még jó','jo'],['Első rossz','rossz'],['Ami zavar','zavar'],['Reakciód','reak'],['Csere','mit'],['Vcsere / gátlás','gatlo']],h='';
+ S.imgs.slice(0,S.ci).forEach(function(g,i){var v=g.vart=='Igen'?'I':g.vart=='Nem'?'N':'';
+  h+='<div class="lg"><b>'+(i+1)+'.kép / történet:</b> '+esc((g.kep||'')+(g.tort?' '+g.tort:''));
+  L.forEach(function(z){if(z[1]=='anal'&&i==0)return;h+='<br><b>'+z[0]+':</b> '+esc(g[z[1]])});
+  h+='<br><b>Váratlan (I/N):</b> '+v+'</div>'});
+ return '<details class="log"'+(S.lo===false?'':' open')+' ontoggle="S.lo=this.open;save()"><summary>Napló – előző képek</summary>'+h+'</details>'}
 function draw(){
  var p=S.ph,m=document.getElementById('m'),n=document.getElementById('n'),g=S.imgs[S.ci],h='';
  if(p=='sum'){
@@ -116,7 +128,7 @@ function draw(){
   h+='<button class="btn" style="width:100%" onclick="same()">Nincs más gátló – az első rossz érzéssel megyek tovább</button>';
   var u=S.imgs.some(function(x){return x.vart=='Igen'});
   h+='<p class="sub" style="margin-top:12px">'+(S.ci+1)+'. kép kész. A folyamat általában 3–8 kép.'+'</p>'}
- m.innerHTML=h;
+ h+=logH();m.innerHTML=h;
  if(p=='vissza')n.innerHTML='<div class="col" style="display:flex;gap:8px;flex:1"><button class="btn p" onclick="nextImg()">Következő kép ebből az érzésből</button><div style="display:flex;gap:8px"><button class="btn s" onclick="back()">Vissza</button><button class="btn g" style="flex:1" onclick="toWand()">Mélypont: varázspálca</button></div></div>';
  else if(p=='wand')n.innerHTML='<button class="btn s" onclick="back()">Vissza</button><button class="btn g" onclick="next()">Tovább</button>';
  else if(p=='after'){var bd=(S.after||{}).st=='Még rossz';n.innerHTML='<button class="btn s" onclick="back()">Vissza</button>'+(bd?'<button class="btn p" onclick="goOn()">Ezzel megyek tovább</button>':'<button class="btn g" onclick="next()">'+(S.wi<1?'Összegzés':'Ellenőrzés indul')+'</button>')}
