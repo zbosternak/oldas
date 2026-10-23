@@ -78,7 +78,7 @@ function sum(){
  var o=[],q=function(s){return String(s==null?'':s).replace(/\s*\n\s*/g,' ').trim()};
  if(S.topic)o.push('Téma: '+q(S.topic));
  S.imgs.forEach(function(g,i){var v=g.vart=='Igen'?'I':g.vart=='Nem'?'N':'';
-  o.push('\n'+(i+1)+'.kép / történet: '+q((g.kep||'')+(g.tort?' '+g.tort:'')),'Analógiás kapcsolat: '+q(g.anal),'Vissza / ahol még jó: '+q(g.jo),'Első rossz: '+q(g.rossz),'Ami zavar: '+q(g.zavar),'Reakciód: '+q(g.reak),'Csere: '+q(g.mit),'Vcsere / gátlás: '+q(g.gatlo),'Váratlan (I/N): '+v)});
+  o.push('\n'+(i+1)+'.kép / történet: '+q((g.kep||'')+(g.tort?' '+g.tort:'')),...(i>0?['Analógiás pont: '+q(g.anal)]:[]),'Vissza / ahol még jó: '+q(g.jo),'Első rossz: '+q(g.rossz),'Ami zavar: '+q(g.zavar),'Reakciód: '+q(g.reak),'Csere: '+q(g.mit),'Vcsere / gátlás: '+q(g.gatlo),'Váratlan (I/N): '+v)});
  (S.log||[]).forEach(function(l){o.push('\nVarázspálca (korábbi)','Javítás: '+q(l.j));if(l.st)o.push('Javítás után: '+q(l.st)+(l.nt?' – '+q(l.nt):''))});
  if(S.wand.j){o.push('\nVarázspálca ('+(S.wi+1)+'.kép)','Javítás: '+q(S.wand.j));if(S.after&&S.after.st)o.push('Javítás után: '+q(S.after.st)+(S.after.nt?' – '+q(S.after.nt):''))}
  var ck=[];Object.keys(S.chk).sort(function(a,b){return b-a}).forEach(function(i){var c=S.chk[i];if(c.st||c.nt)ck.push((+i+1)+'.kép: '+q(c.st)+(c.nt?' – '+q(c.nt):''))});
